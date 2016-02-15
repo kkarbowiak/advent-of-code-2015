@@ -165,4 +165,17 @@ def day7_1():
     print('a =', getWireValue('a'))
 
 
+def day7_2():
+    with open('data/07') as data:
+        for line in data:
+            wire, output = get_wire_and_output_from_instruction(line)
+            wire_to_output[wire] = output
+
+    wire_to_output['b'] = Value(956)
+    cache.clear()
+
+    print('a =', getWireValue('a'))
+
+
 day7_1()
+day7_2()
