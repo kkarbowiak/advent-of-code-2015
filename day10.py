@@ -29,4 +29,15 @@ def day10_1():
         print('len =', len(text))
 
 
+def day10_2():
+    with open('data/10') as data:
+        text = data.readline()
+
+        for i in range(50):
+            text = look_and_say(text)
+
+        print('len =', len(text))
+
+
 day10_1()
+day10_2()
