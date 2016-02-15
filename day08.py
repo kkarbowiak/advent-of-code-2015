@@ -21,6 +21,20 @@ def get_memory_size(line):
     return len(folded_line)
 
 
+def get_encoded_line(line):
+    backslash = re.compile(r'\\')
+    dquote = re.compile(r'"')
+    encoded = backslash.sub('\\\\\\\\', line)
+    encoded = dquote.sub('\\"', encoded)
+    encoded = '"' + encoded + '"'
+    return encoded
+
+
+def get_encoded_size(line):
+    encoded_line = get_encoded_line(line)
+    return len(encoded_line)
+
+
 def day8_1():
     code = 0
     memory = 0
@@ -34,4 +48,18 @@ def day8_1():
     print('diff =', code - memory)
 
 
+def day8_2():
+    code = 0
+    encoded = 0
+
+    with open('data/08') as data:
+        for line in data:
+            line = line.strip()
+            code += get_code_size(line)
+            encoded += get_encoded_size(line)
+
+    print('diff =', encoded - code)
+
+
 day8_1()
+day8_2()
