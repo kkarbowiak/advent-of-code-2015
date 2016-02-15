@@ -57,4 +57,15 @@ def day11_1():
         print('pass =', passw)
 
 
+def day11_2():
+    passw = bytearray('cqjxxyzz'.encode())
+
+    increment(passw)
+    while not is_valid(passw):
+        increment(passw)
+
+    print('pass =', passw)
+
+
 day11_1()
+day11_2()
