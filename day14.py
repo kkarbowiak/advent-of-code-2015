@@ -26,4 +26,32 @@ def day14_1():
     print('mdist =', max_dist)
 
 
+def day14_2():
+    speeds = []
+    times = []
+    rests = []
+    scores = []
+    distances = []
+    with open('data/14') as data:
+        for line in data:
+            speed, time, rest = get_speed_time_rest_from_instruction(line)
+            speeds.append(speed)
+            times.append(time)
+            rests.append(rest)
+            scores.append(0)
+            distances.append(0)
+
+    for seconds in range(1, 2503 + 1):
+        for i in range(len(speeds)):
+            distances[i] = get_distance_after_time(speeds[i], times[i], rests[i], seconds)
+
+        max_dist = max(distances)
+        for i in range(len(distances)):
+            if distances[i] == max_dist:
+                scores[i] += 1
+
+    print('mscore =', max(scores))
+
+
 day14_1()
+day14_2()
