@@ -37,6 +37,31 @@ def get_recipe_score(recipe):
     return capacity * durability * flavor * texture
 
 
+def get_recipe_score_500(recipe):
+    capacity = 0
+    durability = 0
+    flavor = 0
+    texture = 0
+    calories = 0
+
+    for ingredient, spoons in recipe:
+        capacity += ingredient.capacity * spoons
+        durability += ingredient.durability * spoons
+        flavor += ingredient.flavor * spoons
+        texture += ingredient.texture * spoons
+        calories += ingredient.calories * spoons
+
+    if calories != 500:
+        return 0
+
+    capacity = max(0, capacity)
+    durability = max(0, durability)
+    flavor = max(0, flavor)
+    texture = max(0, texture)
+
+    return capacity * durability * flavor * texture
+
+
 def day15_1():
     total_spoons = 100
     max_score = 0
@@ -75,4 +100,44 @@ def day15_1():
     print('mscore =', max_score)
 
 
+def day15_2():
+    total_spoons = 100
+    max_score = 0
+    ingredients = []
+    with open('data/15') as data:
+        for line in data:
+            ingredient = get_decoded_ingredient(line)
+            ingredients.append(ingredient)
+
+    for ing in ingredients:
+        recipe = [(ing, total_spoons)]
+        score = get_recipe_score_500(recipe)
+        max_score = max(score, max_score)
+
+    for ings in itertools.combinations(ingredients, 2):
+        for spoons0 in range(1, total_spoons - 1):
+            recipe = [(ings[0], spoons0), (ings[1], total_spoons - spoons0)]
+            score = get_recipe_score_500(recipe)
+            max_score = max(score, max_score)
+
+    for ings in itertools.combinations(ingredients, 3):
+        for spoons0 in range(1, total_spoons - 2):
+            for spoons1 in range(1, total_spoons - spoons0 - 1):
+                recipe = [(ings[0], spoons0), (ings[1], spoons1), (ings[2], total_spoons - spoons0 - spoons1)]
+                score = get_recipe_score_500(recipe)
+                max_score = max(score, max_score)
+
+    for ings in itertools.combinations(ingredients, 4):
+        for spoons0 in range(1, total_spoons - 3):
+            for spoons1 in range(1, total_spoons - spoons0 - 1):
+                for spoons2 in range(1, total_spoons - spoons0 - spoons1 - 1):
+                    recipe = [(ings[0], spoons0), (ings[1], spoons1), (ings[2], spoons2), (ings[3], total_spoons - spoons0 - spoons1 - spoons2)]
+                    score = get_recipe_score_500(recipe)
+                    max_score = max(score, max_score)
+
+    print('mscore =', max_score)
+
+
 day15_1()
+day15_2()
+
