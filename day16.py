@@ -70,6 +70,20 @@ def matches_MFCSAM(sue):
         and (sue.perfumes is None or sue.perfumes == 1))
 
 
+
+def matches_MFCSAM_2(sue):
+    return ((sue.children is None or sue.children == 3)
+        and (sue.cats is None or sue.cats > 7)
+        and (sue.samoyeds is None or sue.samoyeds == 2)
+        and (sue.pomeranians is None or sue.pomeranians < 3)
+        and (sue.akitas is None or sue.akitas == 0)
+        and (sue.vizslas is None or sue.vizslas == 0)
+        and (sue.goldfish is None or sue.goldfish < 5)
+        and (sue.trees is None or sue.trees > 3)
+        and (sue.cars is None or sue.cars == 2)
+        and (sue.perfumes is None or sue.perfumes == 1))
+
+
 def day16_1():
     sues = []
     with open('data/16') as data:
@@ -82,4 +96,17 @@ def day16_1():
     print('sue =', filtered)
 
 
+def day16_2():
+    sues = []
+    with open('data/16') as data:
+        for line in data:
+            sue = get_decoded_sue(line)
+            sues.append(sue)
+
+    filtered = [s for s in sues if matches_MFCSAM_2(s)]
+
+    print('sue =', filtered)
+
+
 day16_1()
+day16_2()
