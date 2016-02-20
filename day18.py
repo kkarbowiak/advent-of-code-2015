@@ -54,6 +54,21 @@ def process_lights(lights):
     return l2
 
 
+def process_lights_2(lights):
+    l2 = copy.deepcopy(lights)
+
+    for y in range(len(lights)):
+        for x in range(len(lights[y])):
+            l2[y][x] = get_next_state(lights, y, x)
+
+    l2[0][0] = True
+    l2[0][99] = True
+    l2[99][0] = True
+    l2[99][99] = True
+
+    return l2
+
+
 def day18_1():
     lights = []
     with open('data/18') as data:
@@ -68,4 +83,19 @@ def day18_1():
     print('lit =', num_lit)
 
 
+def day18_2():
+    lights = []
+    with open('data/18') as data:
+        for line in data:
+            light_row = get_decoded_light_row(line)
+            lights.append(light_row)
+
+    for i in range(100):
+        lights = process_lights_2(lights)
+
+    num_lit = count_lit(lights)
+    print('lit =', num_lit)
+
+
 day18_1()
+day18_2()
