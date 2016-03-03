@@ -1,6 +1,6 @@
 class CPU:
-    def __init__(self):
-        self.regs = {'a': 0, 'b': 0}
+    def __init__(self, a, b):
+        self.regs = {'a': a, 'b': b}
         self.pc = 0
 
 
@@ -38,7 +38,24 @@ def day23_1():
         for line in data:
             program.append(line.strip())
 
-    cpu = CPU()
+    cpu = CPU(0, 0)
+
+    terminated = False
+
+    while not terminated:
+        terminated = process(cpu, program)
+
+    print('b =', cpu.regs['b'])
+
+
+def day23_2():
+    program = []
+
+    with open('data/23') as data:
+        for line in data:
+            program.append(line.strip())
+
+    cpu = CPU(1, 0)
 
     terminated = False
 
@@ -49,3 +66,4 @@ def day23_1():
 
 
 day23_1()
+day23_2()
