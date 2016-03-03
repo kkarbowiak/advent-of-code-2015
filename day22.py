@@ -160,4 +160,58 @@ def day22_1():
     print('mmana =', min_mana_used)
 
 
+def day22_2():
+    boss = get_boss()
+    player = get_player()
+    spells = get_spells()
+
+    min_mana_used = 999999999999
+    sequence = []
+
+    game_states = [State(player.hp, player.mana, boss.hp, [], 0)]
+
+    while game_states:
+        state = game_states.pop()
+
+        if state.mana_used < min_mana_used:
+            state.hp_player -= 1
+            if is_player_dead(state):
+                continue
+
+            process_effects(state)
+            if is_boss_dead(state):
+                min_mana_used = min(state.mana_used, min_mana_used)
+                continue
+
+            possible_spells = get_possible_spells(spells, state.mana_player, state.effects)
+
+            for ps in possible_spells:
+                new_state = copy.deepcopy(state)
+
+                process_player_turn(new_state, ps)
+
+                if is_boss_dead(new_state):
+                    min_mana_used = min(new_state.mana_used, min_mana_used)
+                    continue
+
+                process_effects(new_state)
+                if is_boss_dead(new_state):
+                    min_mana_used = min(new_state.mana_used, min_mana_used)
+                    continue
+
+                process_boss_turn(new_state, boss)
+
+                if is_boss_dead(new_state):
+                    min_mana_used = min(new_state.mana_used, min_mana_used)
+                    continue
+                elif is_player_dead(new_state):
+                    continue
+                else:
+                    game_states.append(new_state)
+
+
+    print('mmana =', min_mana_used)
+
+
 day22_1()
+day22_2()
